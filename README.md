@@ -60,7 +60,7 @@ All data comes from the **Crafton Palmer Weather Station** at Ichauway, Baker Co
 
 - R 4.1 or higher
 - A Jones Center `@jonesctr.org` account
-- Membership in the `RES-WeatherAPI-Read` Active Directory group
+- Contact IT at support@jonesctr.org to request access.
 
 ## Support
 
