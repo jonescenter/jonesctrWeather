@@ -11,13 +11,12 @@
 #' @noRd
 fetch_all_pages <- function(base_url, entity, filter, token, role) {
   records <- list()
-  url <- paste0(base_url, "/", entity)
+  url <- paste0(base_url, "/", entity, "?$filter=", utils::URLencode(filter, repeated = TRUE))
 
   repeat {
     resp <- httr2::request(url) |>
       httr2::req_auth_bearer_token(token) |>
       httr2::req_headers(`X-MS-API-ROLE` = role) |>
-      httr2::req_url_query(`$filter` = filter) |>
       httr2::req_error(is_error = function(resp) FALSE) |>
       httr2::req_perform()
 
@@ -43,7 +42,7 @@ fetch_all_pages <- function(base_url, entity, filter, token, role) {
     next_link <- body[["nextLink"]]
     if (is.null(next_link) || !nzchar(next_link)) break
     url <- next_link
-    filter <- NULL
+    
   }
 
   if (length(records) == 0) {
