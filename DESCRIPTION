@@ -1,0 +1,23 @@
+Package: jonesctrWeather
+Title: Access Jones Center Weather Station Data
+Version: 0.1.0
+Authors@R: 
+    person("Jones Center IT", , , "support@jonesctr.org", role = c("aut", "cre"))
+Description: Functions to authenticate and retrieve weather station data
+    from the Jones Center at Ichauway weather API. Handles Entra ID
+    authentication automatically using the user's @jonesctr.org account.
+License: MIT + file LICENSE
+Encoding: UTF-8
+Roxygen: list(markdown = TRUE)
+RoxygenNote: 7.3.3
+Imports: 
+    AzureAuth,
+    dplyr,
+    httpuv,
+    httr2
+Suggests: 
+    ggplot2,
+    knitr,
+    lubridate,
+    rmarkdown,
+    tidyr
