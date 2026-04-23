@@ -6,7 +6,7 @@ An R package for accessing weather station data from the Jones Center at Ichauwa
 
 ```r
 install.packages("remotes")
-remotes::install_github("jonescenter/jonesctrWeather", upgrade = "never")
+remotes::install_github("jonescenter/jonesctrWeather")
 ```
 
 ## Authentication
