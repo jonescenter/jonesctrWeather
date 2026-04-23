@@ -1,0 +1,66 @@
+# jonesctrWeather
+
+An R package for accessing weather station data from the Jones Center at Ichauway. Provides simple functions to authenticate and retrieve data from the Jones Center Weather API without requiring any knowledge of the underlying REST API or authentication setup.
+
+## Installation
+
+```r
+install.packages("remotes")
+remotes::install_github("jonescenter/jonesctrWeather", upgrade = "never")
+```
+
+## Authentication
+
+The package uses your existing `@jonesctr.org` account for authentication. On the first call to `get_weather()` a browser window will open for sign-in. Your token is cached for the remainder of the session — subsequent calls are silent.
+
+You must be a member of the `RES-WeatherAPI-Read` Active Directory group to access the API. Contact IT to request access.
+
+## Usage
+
+```r
+library(jonesctrWeather)
+
+# List available weather stations
+list_stations()
+
+# Get 15-minute interval data
+wx <- get_weather(start = "2025-01-01", end = "2025-01-31")
+
+# Get daily aggregate data
+wx_daily <- get_weather_daily(start = "2025-01-01", end = "2025-01-31")
+
+# Plot air temperature
+library(ggplot2)
+
+ggplot(wx, aes(x = as.POSIXct(TmStamp), y = AirTC_Avg)) +
+  geom_line(color = "#447099") +
+  labs(
+    title    = "Crafton Palmer Weather Station",
+    subtitle = "Air Temperature",
+    x        = "Date",
+    y        = "Temperature (°C)"
+  ) +
+  theme_minimal()
+```
+
+## Functions
+
+| Function | Description |
+|---|---|
+| `get_weather(start, end, interval)` | Returns a dataframe of weather records for the given date range. `interval` is `"15min"` (default) or `"daily"`. |
+| `get_weather_daily(start, end)` | Convenience wrapper for daily aggregate data. |
+| `list_stations()` | Returns a dataframe of available weather stations. |
+
+## Data
+
+All data comes from the **Crafton Palmer Weather Station** at Ichauway, Baker County, Georgia. The station collects readings every 15 minutes including air temperature, relative humidity, wind speed, rainfall, barometric pressure, solar radiation, soil moisture, and fuel moisture.
+
+## Requirements
+
+- R 4.1 or higher
+- A Jones Center `@jonesctr.org` account
+- Membership in the `RES-WeatherAPI-Read` Active Directory group
+
+## Support
+
+Contact Jones Center IT at support@jonesctr.org for access requests or technical issues.
