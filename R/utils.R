@@ -23,18 +23,32 @@ fetch_all_pages <- function(url, token, role) {
       httr2::req_error(is_error = function(resp) FALSE) |>
       httr2::req_perform()
 
-    if (httr2::resp_status(resp) != 200L) {
+    status <- httr2::resp_status(resp)
+
+    if (status != 200L) {
       stop(sprintf("API request failed [HTTP %d]: %s",
-        httr2::resp_status(resp),
+        status,
         httr2::resp_body_string(resp)), call. = FALSE)
     }
 
-    body    <- httr2::resp_body_json(resp)
+    # Guard against empty body
+    raw <- httr2::resp_body_string(resp)
+    if (!nzchar(raw)) {
+      message("Warning: empty response body received from API.")
+      break
+    }
+
+    body    <- jsonlite::fromJSON(raw, simplifyVector = FALSE)
     records <- c(records, body$value)
 
     next_link <- body[["nextLink"]]
     if (is.null(next_link) || !nzchar(next_link)) break
     url <- next_link
+  }
+
+  if (length(records) == 0) {
+    message("No records returned for the requested date range.")
+    return(data.frame())
   }
 
   dplyr::bind_rows(lapply(records, as.data.frame, stringsAsFactors = FALSE))

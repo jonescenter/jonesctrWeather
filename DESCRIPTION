@@ -14,7 +14,8 @@ Imports:
     AzureAuth,
     dplyr,
     httpuv,
-    httr2
+    httr2,
+    jsonlite
 Suggests: 
     ggplot2,
     knitr,
