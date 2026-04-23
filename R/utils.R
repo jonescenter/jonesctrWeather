@@ -1,9 +1,5 @@
 #' Fetch all pages from a DAB REST endpoint
 #'
-#' DAB paginates results using a \code{nextLink} field in the response body.
-#' This helper follows the chain until no \code{nextLink} is returned,
-#' combining all pages into a single dataframe.
-#'
 #' @param url Character. The initial request URL.
 #' @param token Character. Bearer token from \code{auth_jones()}.
 #' @param role Character. The \code{X-MS-API-ROLE} header value.
@@ -25,14 +21,16 @@ fetch_all_pages <- function(url, token, role) {
 
     status <- httr2::resp_status(resp)
 
+    # Try to get body safely
+    raw <- tryCatch(
+      httr2::resp_body_string(resp),
+      error = function(e) ""
+    )
+
     if (status != 200L) {
-      stop(sprintf("API request failed [HTTP %d]: %s",
-        status,
-        httr2::resp_body_string(resp)), call. = FALSE)
+      stop(sprintf("API request failed [HTTP %d]", status), call. = FALSE)
     }
 
-    # Guard against empty body
-    raw <- httr2::resp_body_string(resp)
     if (!nzchar(raw)) {
       message("Warning: empty response body received from API.")
       break
