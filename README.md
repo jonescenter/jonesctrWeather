@@ -47,9 +47,9 @@ ggplot(wx, aes(x = as.POSIXct(TmStamp), y = AirTC_Avg)) +
 
 | Function | Description |
 |---|---|
-| `get_weather(start, end, interval)` | Returns a dataframe of weather records for the given date range. `interval` is `"15min"` (default) or `"daily"`. |
-| `get_weather_daily(start, end)` | Convenience wrapper for daily aggregate data. |
-| `list_stations()` | Returns a dataframe of available weather stations. |
+| `get_weather(start, end, interval)` | Returns 15-minute interval weather records for the given date range. Set `interval = "daily"` for daily aggregates. |
+| `get_weather_daily(start, end)` | Convenience wrapper that returns daily aggregate weather records for the given date range. |
+| `list_stations()` | Returns a dataframe of available weather stations and their supported data intervals. |
 
 ## Data
 
