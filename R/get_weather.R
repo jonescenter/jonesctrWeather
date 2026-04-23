@@ -39,9 +39,7 @@ get_weather <- function(start, end, interval = "15min") {
 
   entity <- if (interval == "15min") "CraftonWS_FifteenMin" else "CraftonWS_Daily"
   filter <- sprintf("TmStamp ge '%s' and TmStamp le '%s'", start_str, end_str)
-
-  message("URL: ", paste0(JONES_API_BASE, "/", entity, "?$filter=", utils::URLencode(filter, repeated = TRUE)))
-
+ 
   token <- auth_jones()
   fetch_all_pages(JONES_API_BASE, entity, filter, token, JONES_READ_ROLE)
 }
